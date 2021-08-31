@@ -125,3 +125,7 @@
   text-align: center;
   background-color: #F0F0F0;
 }
+
+.menu_icon {
+  float: right;
+}

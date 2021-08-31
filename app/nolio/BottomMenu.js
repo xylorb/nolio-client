@@ -17,10 +17,19 @@ class BottomMenu extends Section {
     this.menu_body = this.createElement('div', 'bottom_menu_body')
     this.copy_note_btn = this.createElement('div', 'copy_note_btn')
     this.copy_note_btn.innerHTML = "Copy Note"
+    this.copy_note_icon = this.createElement('img', 'menu_icon')
+    this.copy_note_icon.src = "./style/content_copy_black_24dp.svg"
+    this.copy_note_btn.append(this.copy_note_icon)
     this.find_in_note_btn = this.createElement('div', 'find_in_note_btn')
     this.find_in_note_btn.innerHTML = "Find in Note"
+    this.find_in_note_icon = this.createElement('img', 'menu_icon')
+    this.find_in_note_icon.src = "./style/search-24px.svg"
+    this.find_in_note_btn.append(this.find_in_note_icon)
     this.delete_note_btn = this.createElement('div', 'delete_note_btn')
     this.delete_note_btn.innerHTML = "Delete Note"
+    this.delete_note_icon = this.createElement('img', 'menu_icon')
+    this.delete_note_icon.src = "./style/delete-24px.svg"
+    this.delete_note_btn.append(this.delete_note_icon)
     this.menu_body.append(this.copy_note_btn, this.find_in_note_btn, this.delete_note_btn)
 
     this.element.append(this.menu_head, this.menu_body)
