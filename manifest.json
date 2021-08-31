@@ -1,0 +1,16 @@
+{
+    "name": "Nolio Wep App",
+    "short_name": "Nolio",
+    "description": "Progressive Web App (PWA) to access a Nolio note takining system.",
+    "icons": [
+        {
+            "src": "./style/hello-icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "./index.html",
+    "display": "fullscreen",
+    "theme_color": "#D3D3D3",
+    "background_color": "#D3D3D3"
+}
