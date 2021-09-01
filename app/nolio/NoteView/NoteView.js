@@ -4,7 +4,8 @@ import View from '../../components/View'
 import Navbar from '../Navbar'
 import Endbar from '../Endbar'
 import BottomMenu from '../BottomMenu'
-import {AppEvent} from '../../components/App'
+import AppEvent from '../../components/AppEvent'
+import NolioEvents from '../NolioEvents'
 
 
 class NoteView extends View {
@@ -40,7 +41,7 @@ class NoteView extends View {
   }
   registerViewer(viewer) {
     super.registerViewer(viewer)
-    this.viewer.registerAppEventListener('app_theme_change', this.themeChange, this)
+    this.viewer.registerAppEventListener(NolioEvents.CHANGE.THEME, this.themeChange, this)
   }
   activate(withData) {
     this.text_edit_back.innerHTML = withData
@@ -61,12 +62,13 @@ class NoteView extends View {
     }
   }
   textChange() {
-    this.viewer.changeContent(this.text_edit_back.innerHTML)
+    let ae = new AppEvent(NolioEvents.CHANGE.TEXT, 'notebook_view')
+    this.viewer.postAppEvent(ae)
   }
   textInput() {}
   changeEndBar() {}
   changeView() {
-    let ae = new AppEvent('change_view', 'notebook_view')
+    let ae = new AppEvent(NolioEvents.CHANGE.VIEW, 'notebook_view')
     this.viewer.postAppEvent(ae)
   }
   themeChange() {}

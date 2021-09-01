@@ -1,28 +1,12 @@
+/* App.js is the primary generic application coordination point roughly based on an MVC design. */
 
-/* Configuration information for the Application itself */
-export class AppConfig {
-  constructor() {}
-}
-
-/* Context or state of the Application */
-export class AppContext {
-  constructor() {}
-}
-
-/* Events specific to the operation of the Application's own operations */
-export class AppEvent {
-  constructor(event_type, data) {
-    this.event_type = event_type
-    this.data = data
-  }
-}
 
 /* MVC model of the Application */
 class AppModeller {
-  constructor(config, context, content) {
-    this.config = config
-    this.context = context
+  constructor(state, content) {
+    this.state = state
     this.content = content
+    //this.content.registerModeller(this)
   }
   registerController(controller) {
     this.controller = controller
@@ -33,14 +17,15 @@ class AppModeller {
   postAppEvent(ae) {
     this.controller.postAppEvent(ae)
   }
-  saveData() {}
-  loadData() {}
-  pushData() {}
-  fetchData() {}
+  saveLocalData() {}
+  loadLocalData() {}
+  saveRemoteData() {}
+  loadRemoteData() {}
   getDataForContext() {
+    // likely replace with event system ???
     let result = "blank"
-    for (let i of this.content[this.context['current_notebook_ID']]) {
-      if (i.id == this.context['current_note_ID']) {
+    for (let i of this.content[this.state['current_notebook_ID']]) {
+      if (i.id == this.state['current_note_ID']) {
         result = i.text
       }
     }
@@ -78,10 +63,6 @@ class AppViewer {
       }
     }
   }
-  requestContent(name, format) {
-    return this.controller.getData(name, format)
-  }
-  pushContent() {}
 }
 
 /* MVC controller of the Application */
@@ -93,8 +74,6 @@ class AppController {
 
     this.modeller.registerController(this)
     this.viewer.registerController(this)
-
-    this.registerAppEventListener('change_view', this.onContextChange, this)
   }
   registerAppEventListener(forEventType, callback, thatObj) {
     this.listeners.push({event_type:forEventType,callback:callback,thatObj:thatObj})
@@ -114,29 +93,26 @@ class AppController {
 
     if(viewID) {
       ofObj.viewer.displayView(viewID, ofObj.getDataForContext())
-      //this.viewer.displayView(viewID, this.getDataForContext())
     }
     else {
-      ofObj.viewer.displayView(ofObj.modeller.context.current_view_ID, ofObj.getDataForContext())
-      //this.viewer.displayView(this.modeller.context.current_view_ID, this.getDataForContext())
+      ofObj.viewer.displayView(ofObj.modeller.state.current_view_ID, ofObj.getDataForContext())
     }
   }
   getDataForContext() {
+    // likely replace with event system, but need to request data for context on event trigger ???
     return this.modeller.getDataForContext()
   }
-  putChangedData(dataContent) {}
 }
 
 /* Convenience wrapper of the Application, and centeral API */
 export class Application {
-  constructor(config, context, content) {
-    this.controller = new AppController(new AppModeller(config, context, content), new AppViewer())
+  constructor(state, content) {
+    this.controller = new AppController(new AppModeller(state, content), new AppViewer())
   }
   addView(view) {
     this.controller.viewer.addView(view)
   }
   start() {
-    this.controller.onContextChange()
   }
 }
 

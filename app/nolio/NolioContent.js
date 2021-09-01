@@ -1,15 +1,20 @@
 
 
+import Model from "../components/Model"
+import NolioEvents from "./NolioEvents"
+import toolkit from "./toolkit"
 
-import toolkit from "../nolio/toolkit"
 
-
-export class NolioContent {
-  constructor(dataID) {
-    this.dataID = dataID
+export class NolioContent extends Model {
+  constructor(name) {
+    super(name)
   }
   registerModeller(modeller) {
-    this.modeller = modeller
+    super.registerModeller(modeller)
+  }
+  init() {
+    super.init()
+    this.modeller.registerAppEventListener(NolioEvents.CHANGE.TEXT, this.setTextOfNote, this)
   }
   getNotebookMeta(withName, ofNotebook) {}
   setNotebookMeta(withName, ofNotebook, value) {}

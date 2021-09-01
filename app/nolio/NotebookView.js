@@ -1,7 +1,8 @@
 
 
 import View from '../components/View'
-import {AppEvent} from '../components/App'
+import AppEvent from '../components/AppEvent'
+import NolioEvents from './NolioEvents'
 
 
 class NotebookView extends View {
@@ -54,7 +55,7 @@ class NotebookView extends View {
   }
   toggleMainArea() {}
   changeView() {
-    let ae = new AppEvent('change_view', 'note_view')
+    let ae = new AppEvent(NolioEvents.CHANGE.VIEW, 'note_view')
     this.viewer.postAppEvent(ae)
   }
 }

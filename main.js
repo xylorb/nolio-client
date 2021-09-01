@@ -1,10 +1,7 @@
-
+/* main.js is the primary script starting and running the Nolio-Client application. */
 
 /* Import */
-import Application from './app/components/App'
-import NoteView from './app/nolio/NoteView/NoteView'
-import NotebookView from './app/nolio/NotebookView'
-import NolioContent from './app/nolio/NolioContent'
+import NolioApp from './app/nolio/NolioApp'
 
 
 /* ServiceWorker Registration */
@@ -21,31 +18,10 @@ if ('serviceWorker' in navigator) {
 }
 
 
-/* Build and Start the Application */
-let config = {}
-let context = {
-  current_notebook_ID: 'default',
-  current_note_ID: '2021-08-16-00-00',
-  current_view_ID: 'note_view'
-}
-//let content = new NolioContent('nolio_content')
-let content = {
-  default: [
-    {
-      id: '2021-08-16-00-00',
-      text: '<:note:>\nHello World!\n<:/note/:>'
-    }
-  ]
-}
+/* Create & Start Nolio Client */
+let nolio = new NolioApp()
 
-const note_view = new NoteView()
-const notebook_view = new NotebookView()
-
-const app = new Application(config, context, content)
-app.addView(note_view)
-app.addView(notebook_view)
-
-app.start()
+nolio.start()
 
 
 
