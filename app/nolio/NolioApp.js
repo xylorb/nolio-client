@@ -1,6 +1,7 @@
 /* NolioApp.js creates a specific implementation of an application - Nolio Client. */
 
-import Application from '../components/App'
+import AppController from '../components/App'
+import {AppModeller, AppViewer} from '../components/App'
 import AppState from '../components/AppState'
 import AppEvent from '../components/AppEvent'
 
@@ -10,10 +11,8 @@ import NolioContent from './NolioContent'
 import NolioEvents from './NolioEvents'
 
 
-export class NolioApp extends Application {
+export class NolioApp extends AppController {
   constructor() {
-    let app_state = new AppState()
-    let app_content = new NolioContent()
 
     let state = {
       current_notebook_ID: 'default',
@@ -29,19 +28,17 @@ export class NolioApp extends Application {
       ]
     }
 
-    super(state, content)
-    //super(app_state, app_content)
+    super(new AppModeller(state, content), new AppViewer())
+    //super(new AppModeller(new AppState(), new NolioContent()), new AppViewer())
 
-    const note_view = new NoteView()
-    const notebook_view = new NotebookView()
-    this.addView(note_view)
-    this.addView(notebook_view)
+    this.viewer.addView(new NoteView())
+    this.viewer.addView(new NotebookView())
   }
-  start() {
-    super.start()
-    this.controller.registerAppEventListener(NolioEvents.CHANGE.VIEW, this.controller.onContextChange, this.controller)
-    let ae = new AppEvent(NolioEvents.CHANGE.VIEW, 'note_view')
-    this.controller.postAppEvent(ae)
+  init() {
+    super.init()
+    //this.registerAppEventListener(NolioEvents.CHANGE.VIEW, this.onContextChange, this)
+    this.registerAppEventListener(NolioEvents.CHANGE.VIEW, this.viewer.displayView, this.viewer)
+    this.registerAppEventListener(NolioEvents.CHANGE.CONTEXT, this.onContextChange, this)
   }
 }
 

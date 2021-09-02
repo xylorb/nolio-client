@@ -41,10 +41,14 @@ class NoteView extends View {
   }
   registerViewer(viewer) {
     super.registerViewer(viewer)
-    this.viewer.registerAppEventListener(NolioEvents.CHANGE.THEME, this.themeChange, this)
   }
-  activate(withData) {
-    this.text_edit_back.innerHTML = withData
+  init() {
+    super.init()
+    this.viewer.registerAppEventListener(NolioEvents.CHANGE.THEME, this.themeChange, this)
+    this.viewer.registerAppEventListener(NolioEvents.CHANGE.CONTEXT, this.updateText, this)
+  }
+  updateText(withData, thatObj) {
+    thatObj.text_edit_back.innerHTML = withData
   }
   openMenu() {
     this.bottom_menu.element.style.height = "50vh";
@@ -62,8 +66,8 @@ class NoteView extends View {
     }
   }
   textChange() {
-    let ae = new AppEvent(NolioEvents.CHANGE.TEXT, 'notebook_view')
-    this.viewer.postAppEvent(ae)
+    //let ae = new AppEvent(NolioEvents.CHANGE.TEXT, 'notebook_view')
+    //this.viewer.postAppEvent(ae)
   }
   textInput() {}
   changeEndBar() {}

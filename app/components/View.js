@@ -8,8 +8,7 @@ class View extends Element {
   registerViewer(viewer) {
     this.viewer = viewer
   }
-  activate() {}
-  deactivate() {}
+  init() {}
 }
 
 export default View

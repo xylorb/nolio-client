@@ -2,7 +2,7 @@
 
 
 /* MVC model of the Application */
-class AppModeller {
+export class AppModeller {
   constructor(state, content) {
     this.state = state
     this.content = content
@@ -21,7 +21,7 @@ class AppModeller {
   loadLocalData() {}
   saveRemoteData() {}
   loadRemoteData() {}
-  getDataForContext() {
+  /*getDataForContext() {
     // likely replace with event system ???
     let result = "blank"
     for (let i of this.content[this.state['current_notebook_ID']]) {
@@ -30,11 +30,11 @@ class AppModeller {
       }
     }
     return result
-  }
+  }*/
 }
 
 /* MVC view of the Application */
-class AppViewer {
+export class AppViewer {
   constructor() {
     this.selector = '#root'
     this.root = document.querySelector(this.selector)
@@ -44,7 +44,7 @@ class AppViewer {
     this.controller = controller
   }
   registerAppEventListener(forEventType, callback, thatObj) {
-    this.controller.registerAppEventListener(forEventType, callback)
+    this.controller.registerAppEventListener(forEventType, callback, thatObj)
   }
   postAppEvent(ae) {
     this.controller.postAppEvent(ae)
@@ -52,21 +52,32 @@ class AppViewer {
   addView(view) {
     view.appendTo(this.selector)
     view.registerViewer(this)
+    view.init()
     this.views.push(view)
   }
-  displayView(viewID, withData) {
-    for (let i of this.views) {
+  displayView(viewID, thatObj) {
+    let ofObj = this
+    if (thatObj) {
+      ofObj = thatObj
+    } else {}
+
+    let newView = ofObj.controller.modeller.state.current_view_ID
+    if(viewID) {
+      newView = viewID
+    }
+    else {}
+
+    for (let i of ofObj.views) {
       document.getElementById(i.id).style.display = "none"
-      if (viewID == i.id) {
-        document.getElementById(viewID).style.display = "block"
-        i.activate(withData)
+      if (newView == i.id) {
+        document.getElementById(newView).style.display = "block"
       }
     }
   }
 }
 
 /* MVC controller of the Application */
-class AppController {
+export class AppController {
   constructor(app_data_modeller, app_main_viewer) {
     this.modeller = app_data_modeller
     this.viewer = app_main_viewer
@@ -74,6 +85,10 @@ class AppController {
 
     this.modeller.registerController(this)
     this.viewer.registerController(this)
+  }
+  init() {}
+  start() {
+    this.init()
   }
   registerAppEventListener(forEventType, callback, thatObj) {
     this.listeners.push({event_type:forEventType,callback:callback,thatObj:thatObj})
@@ -85,39 +100,11 @@ class AppController {
       } else {}
     }
   }
-  onContextChange(viewID, thatObj) {
-    let ofObj = this
-    if (thatObj) {
-      ofObj = thatObj
-    } else {}
-
-    if(viewID) {
-      ofObj.viewer.displayView(viewID, ofObj.getDataForContext())
-    }
-    else {
-      ofObj.viewer.displayView(ofObj.modeller.state.current_view_ID, ofObj.getDataForContext())
-    }
-  }
-  getDataForContext() {
-    // likely replace with event system, but need to request data for context on event trigger ???
-    return this.modeller.getDataForContext()
-  }
-}
-
-/* Convenience wrapper of the Application, and centeral API */
-export class Application {
-  constructor(state, content) {
-    this.controller = new AppController(new AppModeller(state, content), new AppViewer())
-  }
-  addView(view) {
-    this.controller.viewer.addView(view)
-  }
-  start() {
-  }
+  onContextChange(viewID, thatObj) {}
 }
 
 
-export default Application
+export default AppController
 
 
 

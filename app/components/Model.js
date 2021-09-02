@@ -6,7 +6,6 @@ class Model {
   }
   registerModeller(modeller) {
     this.modeller = modeller
-    this.init()
   }
   init() {}
 }

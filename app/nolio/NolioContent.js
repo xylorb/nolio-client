@@ -11,6 +11,7 @@ export class NolioContent extends Model {
   }
   registerModeller(modeller) {
     super.registerModeller(modeller)
+    this.init()
   }
   init() {
     super.init()
