@@ -10,8 +10,8 @@ import Model from './Model'
 export class AppState extends Model {
   constructor(name, config, context) {
     super(name)
-    this.config = config
-    this.context = context
+    this.config = config || {}
+    this.context = context || {}
   }
 }
 

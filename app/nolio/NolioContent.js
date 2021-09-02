@@ -11,17 +11,22 @@ export class NolioContent extends Model {
   }
   registerModeller(modeller) {
     super.registerModeller(modeller)
-    this.init()
   }
   init() {
     super.init()
-    this.modeller.registerAppEventListener(NolioEvents.CHANGE.TEXT, this.setTextOfNote, this)
+    this.modeller.registerAppEventListener(NolioEvents.NOTE.TEXT_CHANGE, this.setTextOfNote, this)
   }
   getNotebookMeta(withName, ofNotebook) {}
   setNotebookMeta(withName, ofNotebook, value) {}
   getNotesList(ofNotebook) {}
   getTextOfNote(withName) {}
-  setTextOfNote(withName, text) {}
+  setTextOfNote(withData, thatObj) {
+    let ofObj = this
+    if (thatObj) {
+      ofObj = thatObj
+    } else {}
+    console.log(withData)
+  }
   createNote(withName, text) {}
   deleteNote(withName) {}
 }

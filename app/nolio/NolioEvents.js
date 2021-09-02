@@ -5,9 +5,15 @@ export const NolioEvents = {
     VIEW: "change.view",
     THEME: "change.theme",
     CONTEXT: "change.context",
-    TEXT: "change.text"
   },
-  OTHER: "other"
+  NOTE: {
+    CREATE: "note.create",
+    TEXT_CHANGE: "note.text_change",
+    DELETE: "note.delete"
+  },
+  NOTEBOOK: {
+    SEARCH: "notebook.search"
+  }
 }
 
 

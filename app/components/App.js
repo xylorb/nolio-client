@@ -3,10 +3,13 @@
 
 /* MVC model of the Application */
 export class AppModeller {
-  constructor(state, content) {
-    this.state = state
-    this.content = content
-    //this.content.registerModeller(this)
+  constructor() {
+    this.models = []
+  }
+  init() {
+    for (let i of this.models) {
+      i.init()
+    }
   }
   registerController(controller) {
     this.controller = controller
@@ -16,6 +19,10 @@ export class AppModeller {
   }
   postAppEvent(ae) {
     this.controller.postAppEvent(ae)
+  }
+  addModel(model) {
+    model.registerModeller(this)
+    this.models.push(model)
   }
   saveLocalData() {}
   loadLocalData() {}
@@ -40,6 +47,11 @@ export class AppViewer {
     this.root = document.querySelector(this.selector)
     this.views = []
   }
+  init() {
+    for (let i of this.views) {
+      i.init()
+    }
+  }
   registerController(controller) {
     this.controller = controller
   }
@@ -52,7 +64,6 @@ export class AppViewer {
   addView(view) {
     view.appendTo(this.selector)
     view.registerViewer(this)
-    view.init()
     this.views.push(view)
   }
   displayView(viewID, thatObj) {
@@ -61,7 +72,7 @@ export class AppViewer {
       ofObj = thatObj
     } else {}
 
-    let newView = ofObj.controller.modeller.state.current_view_ID
+    let newView = ''   //  ???
     if(viewID) {
       newView = viewID
     }
@@ -86,7 +97,10 @@ export class AppController {
     this.modeller.registerController(this)
     this.viewer.registerController(this)
   }
-  init() {}
+  init() {
+    this.modeller.init()
+    this.viewer.init()
+  }
   start() {
     this.init()
   }

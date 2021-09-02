@@ -66,8 +66,8 @@ class NoteView extends View {
     }
   }
   textChange() {
-    //let ae = new AppEvent(NolioEvents.CHANGE.TEXT, 'notebook_view')
-    //this.viewer.postAppEvent(ae)
+    let ae = new AppEvent(NolioEvents.NOTE.TEXT_CHANGE, event.target.value)
+    this.viewer.postAppEvent(ae)
   }
   textInput() {}
   changeEndBar() {}
