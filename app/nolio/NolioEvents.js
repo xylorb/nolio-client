@@ -9,6 +9,7 @@ export const NolioEvents = {
   NOTE: {
     CREATE: "note.create",
     TEXT_CHANGE: "note.text_change",
+    FANCY_CHANGE: "note.fancy_change",
     DELETE: "note.delete"
   },
   NOTEBOOK: {

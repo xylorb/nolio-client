@@ -18,11 +18,11 @@ class NoteView extends View {
 
     this.main_note_view = this.createElement('div', 'main_note_view')
     this.flip_space = this.createElement('div', 'flip_space')
-    this.flip_space_front = this.createElement('div', 'flip_space_front')  // pretty view
+    this.flip_space_front = this.createElement('div', 'flip_space_front')  // fancy view
     this.text_edit_front = this.createElement('textarea', 'text_edit')
     this.text_edit_front.placeholder = "The dog plays in the yard."
     this.flip_space_front.append(this.text_edit_front)
-    this.flip_space_back = this.createElement('div', 'flip_space_back')  // plain-text view
+    this.flip_space_back = this.createElement('div', 'flip_space_back')  // text view
     this.text_edit_back = this.createElement('textarea', 'text_edit')
     this.text_edit_back.placeholder = "The cat plays in the garden."
     this.text_edit_back.addEventListener('change', event => this.textChange())
@@ -44,11 +44,11 @@ class NoteView extends View {
   }
   init() {
     super.init()
-    this.viewer.registerAppEventListener(NolioEvents.CHANGE.THEME, this.themeChange, this)
-    this.viewer.registerAppEventListener(NolioEvents.CHANGE.CONTEXT, this.updateText, this)
+    this.viewer.registerAppEventListener(NolioEvents.CHANGE.THEME, this.themeChange.bind(this))
+    //this.viewer.registerAppEventListener(NolioEvents.CHANGE.CONTEXT, this.updateText.bind(this))
   }
-  updateText(withData, thatObj) {
-    thatObj.text_edit_back.innerHTML = withData
+  updateText(withData) {
+    this.text_edit_back.innerHTML = withData
   }
   openMenu() {
     this.bottom_menu.element.style.height = "50vh";
@@ -74,6 +74,8 @@ class NoteView extends View {
   changeView() {
     let ae = new AppEvent(NolioEvents.CHANGE.VIEW, 'notebook_view')
     this.viewer.postAppEvent(ae)
+    let ae2 = new AppEvent(NolioEvents.CHANGE.CONTEXT, 'change context')
+    this.viewer.postAppEvent(ae2)
   }
   themeChange() {}
 }

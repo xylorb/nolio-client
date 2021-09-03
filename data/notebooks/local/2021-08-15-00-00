@@ -1,4 +1,4 @@
-<.note "Sample Note" .>
+<:note:>
 
 ###  Sample Note  ###
 This is a sample note for testing of the Nolio-Client PWA.
@@ -23,4 +23,4 @@ And back to here ...
 
 
 
-</note #2021-08-15 #demo #test #author="me" />
+<:/note #2021-08-15 #title="Sample Note" #demo #test #author="me" /:>

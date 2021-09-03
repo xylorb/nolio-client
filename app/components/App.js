@@ -14,8 +14,8 @@ export class AppModeller {
   registerController(controller) {
     this.controller = controller
   }
-  registerAppEventListener(forEventType, callback, thatObj) {
-    this.controller.registerAppEventListener(forEventType, callback, thatObj)
+  registerAppEventListener(forEventType, callback) {
+    this.controller.registerAppEventListener(forEventType, callback)
   }
   postAppEvent(ae) {
     this.controller.postAppEvent(ae)
@@ -28,16 +28,6 @@ export class AppModeller {
   loadLocalData() {}
   saveRemoteData() {}
   loadRemoteData() {}
-  /*getDataForContext() {
-    // likely replace with event system ???
-    let result = "blank"
-    for (let i of this.content[this.state['current_notebook_ID']]) {
-      if (i.id == this.state['current_note_ID']) {
-        result = i.text
-      }
-    }
-    return result
-  }*/
 }
 
 /* MVC view of the Application */
@@ -55,8 +45,8 @@ export class AppViewer {
   registerController(controller) {
     this.controller = controller
   }
-  registerAppEventListener(forEventType, callback, thatObj) {
-    this.controller.registerAppEventListener(forEventType, callback, thatObj)
+  registerAppEventListener(forEventType, callback) {
+    this.controller.registerAppEventListener(forEventType, callback)
   }
   postAppEvent(ae) {
     this.controller.postAppEvent(ae)
@@ -66,19 +56,14 @@ export class AppViewer {
     view.registerViewer(this)
     this.views.push(view)
   }
-  displayView(viewID, thatObj) {
-    let ofObj = this
-    if (thatObj) {
-      ofObj = thatObj
-    } else {}
-
+  displayView(viewID) {
     let newView = ''   //  ???
     if(viewID) {
       newView = viewID
     }
     else {}
 
-    for (let i of ofObj.views) {
+    for (let i of this.views) {
       document.getElementById(i.id).style.display = "none"
       if (newView == i.id) {
         document.getElementById(newView).style.display = "block"
@@ -104,17 +89,17 @@ export class AppController {
   start() {
     this.init()
   }
-  registerAppEventListener(forEventType, callback, thatObj) {
-    this.listeners.push({event_type:forEventType,callback:callback,thatObj:thatObj})
+  registerAppEventListener(forEventType, callback) {
+    this.listeners.push({event_type:forEventType,callback:callback})
   }
   postAppEvent(ae) {
     for (let l of this.listeners) {
       if (l.event_type == ae.event_type) {
-        l.callback(ae.data, l.thatObj)
+        l.callback(ae.data, l.withThis)
       } else {}
     }
   }
-  onContextChange(viewID, thatObj) {}
+  onContextChange(viewID) {}
 }
 
 
