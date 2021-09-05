@@ -57,6 +57,8 @@ class NotebookView extends View {
   changeView() {
     let ae = new AppEvent(NolioEvents.CHANGE.VIEW, 'note_view')
     this.viewer.postAppEvent(ae)
+    let ae2 = new AppEvent(NolioEvents.CHANGE.CONTEXT, 'change context')
+    this.viewer.postAppEvent(ae2)
   }
 }
 
