@@ -4,7 +4,7 @@
     "description": "Progressive Web App (PWA) to access a Nolio note takining system.",
     "icons": [
         {
-            "src": "./style/nolio-icon_512.png",
+            "src": "./style/nolio-icon_512.svg",
             "sizes": "512x512",
             "type": "image/png"
         }
